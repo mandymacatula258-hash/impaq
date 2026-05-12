@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'Support', href: '#support' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', to: '/' },
+  { label: 'Support', to: '#support' },
+  { label: 'Product', to: '#product' },
+  { label: 'About Us', to: '/about' },
+  { label: 'Contact Us', to: '/contact' },
 ]
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [activeLink, setActiveLink] = useState('Home')
+  const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10)
@@ -27,43 +29,84 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const handleNavClick = (label) => {
-    setActiveLink(label)
-    setMenuOpen(false)
+  const isActive = (to) => {
+    if (to === '/') return location.pathname === '/'
+    return location.pathname === to
+  }
+
+  const renderLink = ({ label, to }) => {
+    const isPage = to.startsWith('/')
+    if (isPage) {
+      return (
+        <Link
+          to={to}
+          className={`navbar__link${isActive(to) ? ' navbar__link--active' : ''}`}
+          onClick={() => setMenuOpen(false)}
+        >
+          {label}
+          <span className="navbar__link-underline" />
+        </Link>
+      )
+    }
+    return (
+      <a
+        href={to}
+        className="navbar__link"
+        onClick={() => setMenuOpen(false)}
+      >
+        {label}
+        <span className="navbar__link-underline" />
+      </a>
+    )
+  }
+
+  const renderMobileLink = ({ label, to }) => {
+    const isPage = to.startsWith('/')
+    if (isPage) {
+      return (
+        <Link
+          to={to}
+          className={`navbar__mobile-link${isActive(to) ? ' navbar__mobile-link--active' : ''}`}
+          onClick={() => setMenuOpen(false)}
+        >
+          {label}
+        </Link>
+      )
+    }
+    return (
+      <a
+        href={to}
+        className="navbar__mobile-link"
+        onClick={() => setMenuOpen(false)}
+      >
+        {label}
+      </a>
+    )
   }
 
   return (
     <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
       <nav className="navbar__inner">
 
-        <a href="#home" className="navbar__logo" aria-label="IMPAQ OPTICS Home">
+        <Link to="/" className="navbar__logo" aria-label="IMPAQ OPTICS Home">
           IMPAQ OPTICS
-        </a>
+        </Link>
 
         <ul className="navbar__links" role="menubar">
-          {NAV_LINKS.map(({ label, href }) => (
-            <li key={label} role="none">
-              <a
-                href={href}
-                role="menuitem"
-                className={`navbar__link${activeLink === label ? ' navbar__link--active' : ''}`}
-                onClick={() => handleNavClick(label)}
-              >
-                {label}
-                <span className="navbar__link-underline" />
-              </a>
+          {NAV_LINKS.map((link) => (
+            <li key={link.label} role="none">
+              {renderLink(link)}
             </li>
           ))}
-<li role="none">
-  <a
-    href="#signup"
-    role="menuitem"
-    className="navbar__signup"
-    onClick={() => handleNavClick('Sign up')}
-  >
-    Sign up
-  </a>
-</li>
+          <li role="none">
+            <a
+              href="#signup"
+              role="menuitem"
+              className="navbar__signup"
+            >
+              Sign up
+            </a>
+          </li>
         </ul>
 
         <button
@@ -80,19 +123,13 @@ export default function Navbar() {
 
       <div className={`navbar__mobile-menu${menuOpen ? ' navbar__mobile-menu--open' : ''}`}>
         <ul>
-          {NAV_LINKS.map(({ label, href }) => (
-<li key={label}>
-  <a
-    href={href}
-    className={`navbar__mobile-link${activeLink === label ? ' navbar__mobile-link--active' : ''}`}
-    onClick={() => handleNavClick(label)}
-  >
-    {label}
-  </a>
-</li>
+          {NAV_LINKS.map((link) => (
+            <li key={link.label}>
+              {renderMobileLink(link)}
+            </li>
           ))}
           <li>
-            <a href="#signup" className="navbar__mobile-signup" onClick={() => handleNavClick('Sign up')}>
+            <a href="#signup" className="navbar__mobile-signup" onClick={() => setMenuOpen(false)}>
               Sign up
             </a>
           </li>
