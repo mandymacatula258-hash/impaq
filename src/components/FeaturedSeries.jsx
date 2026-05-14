@@ -78,12 +78,7 @@ export default function FeaturedSeries() {
             <div className="featured__card-body">
               <h3 className="featured__card-title">{item.title}</h3>
               <p className="featured__card-desc">{item.description}</p>
-              <a href="#" className="featured__card-link">
-                Learn More
-                <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-                  <path d="M3 9H15M15 9L9.5 3.5M15 9L9.5 14.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </a>
+
             </div>
           </div>
         ))}
