@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { signOut } from "firebase/auth"
 import { auth } from "../firebase"
 import { useAuth } from "../context/AuthContext"
-
 import "./Navbar.css"
 
 const ADMIN_EMAIL = "mandymacatula258@gmail.com"
@@ -44,11 +43,7 @@ function NavbarAuth() {
           <div className="navbar__dropdown">
             <p className="navbar__dropdown-email">{currentUser.email}</p>
             {isAdmin && (
-              <Link
-                to="/admin"
-                className="navbar__dropdown-admin"
-                onClick={() => setDropdownOpen(false)}
-              >
+              <Link to="/admin" className="navbar__dropdown-admin" onClick={() => setDropdownOpen(false)}>
                 Admin Dashboard
               </Link>
             )}

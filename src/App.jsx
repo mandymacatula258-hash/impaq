@@ -12,7 +12,7 @@ import ProductFrenzyFA from "./components/ProductFrenzyFA"
 import ProductFrenzyB from "./components/ProductFrenzyB"
 import Shop from "./components/Shop"
 import Checkout from "./components/Checkout"
-import Admin from "./components/Admin"   // ← ADDED
+import Admin from "./components/Admin"
 
 export default function App() {
   return (
@@ -29,7 +29,7 @@ export default function App() {
           <Route path="/products/frenzy-b" element={<ProductFrenzyB />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/admin" element={<Admin />} />   {/* ← ADDED */}
+          <Route path="/admin" element={<Admin />} />
         </Routes>
         <Footer />
       </div>
